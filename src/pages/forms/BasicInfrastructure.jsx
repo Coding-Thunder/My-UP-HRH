@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import formSpecJSON from "../../configs/basicInfra.json";
+import formSpecJSON from "../../services/configs/basicInfra.json";
 import { useNavigate } from "react-router-dom";
-import { getMedicalAssessments, saveFormSubmission } from "../../api";
+import { getMedicalAssessments, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
 import XMLParser from "react-xml-parser";
-import ROUTE_MAP from "../../routing/routeMap";
-import { getCookie, setCookie } from "../../utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
+import { getCookie, setCookie } from "../../services/utils";
 
 const BasicInfrastructure = () => {
   const { state } = useContext(StateContext);
@@ -20,7 +20,6 @@ const BasicInfrastructure = () => {
     );
   };
   const formSpec = formSpecJSON;
-  console.log(formSpec);
   const navigate = useNavigate();
   const encodeFunction = (func) => encodeURIComponent(JSON.stringify(func));
   const startingForm = formSpec.start;

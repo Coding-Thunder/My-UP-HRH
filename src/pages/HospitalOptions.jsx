@@ -2,12 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
-import { getAssessmentStatus, getMedicalAssessments } from "../api";
-import { faUser, faLock, faMobile } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getAssessmentStatus, getMedicalAssessments } from "../services/api";
 import { StateContext } from "../App";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie } from "../utils";
+import ROUTE_MAP from "../services/routing/routeMap";
 
 const HospitalOptions = () => {
   const { state, setState } = useContext(StateContext);
@@ -48,7 +45,6 @@ const HospitalOptions = () => {
     // setRole(() => roles);
   }, []);
 
-  console.log(state);
 
   return (
     <CommonLayout back={ROUTE_MAP.assessment_type}>

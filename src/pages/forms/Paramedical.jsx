@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import formSpecJSON from "../../configs/paramedical.json";
+import formSpecJSON from "../../services/configs/paramedical.json";
 import { useNavigate } from "react-router-dom";
-import { getMedicalAssessments, saveFormSubmission } from "../../api";
+import { getMedicalAssessments, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
 import XMLParser from "react-xml-parser";
-import { getCookie, makeDataForPrefill, setCookie } from "../../utils";
-import ROUTE_MAP from "../../routing/routeMap";
+import { getCookie, makeDataForPrefill, setCookie } from "../../services/utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
 
 const ENKETO_MANAGER_URL = process.env.REACT_APP_ENKETO_MANAGER_URL;
 const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;

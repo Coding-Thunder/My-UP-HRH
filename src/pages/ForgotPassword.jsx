@@ -3,8 +3,8 @@ import CommonLayout from "../components/CommonLayout";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import OtpInput from "react-otp-input";
-import { sendOtpToMobile, verifyOtpSavePassword } from "../api";
-import ROUTE_MAP from "../routing/routeMap";
+import { sendOtpToMobile, verifyOtpSavePassword } from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -89,9 +89,8 @@ const ForgotPassword = () => {
               Enter your registered mobile number
             </p>
             <input
-              className={`${
-                error && "border-red-400 animate__animated animate__headShake"
-              } border-2 rounded px-3 py-4 text-xl mt-10 w-full`}
+              className={`${error && "border-red-400 animate__animated animate__headShake"
+                } border-2 rounded px-3 py-4 text-xl mt-10 w-full`}
               value={mobile}
               onChange={(e) => handleMobileInput(e.target.value)}
             />
@@ -111,10 +110,9 @@ const ForgotPassword = () => {
               Change Password Here
             </p>
             <input
-              className={`border ${
-                (error?.err1 || error?.err) &&
+              className={`border ${(error?.err1 || error?.err) &&
                 "border-2 border-red-400 animate__animated animate__headShake"
-              } border-primary rounded px-3 py-3 text-lg mt-10 w-full`}
+                } border-primary rounded px-3 py-3 text-lg mt-10 w-full`}
               placeholder="New Password"
               value={newPass}
               onChange={(e) => setNewPass(e.target.value)}
@@ -125,10 +123,9 @@ const ForgotPassword = () => {
               </p>
             )}
             <input
-              className={`border ${
-                (error?.err2 || error?.err) &&
+              className={`border ${(error?.err2 || error?.err) &&
                 "border-2 border-red-400 animate__animated animate__headShake"
-              } border-primary rounded px-3 py-3 text-lg mt-10 w-full`}
+                } border-primary rounded px-3 py-3 text-lg mt-10 w-full`}
               placeholder="Confirm New Password"
               value={newPassConfirm}
               onChange={(e) => setNewPassConfirm(e.target.value)}

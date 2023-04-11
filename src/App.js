@@ -30,10 +30,10 @@ import GenericOdkForm from "./pages/forms/GenericOdkForm";
 import NursingNonMedical from "./pages/forms/NursingNonMedical";
 import ParamedicalNonMedical from "./pages/forms/ParamedicalNonMedical";
 import Admin from "./pages/Admin";
-import ROUTE_MAP from "./routing/routeMap";
+import ROUTE_MAP from "./services/routing/routeMap";
 import Login from "./pages/Login/Login";
-import PrivateRoute from "./routing/PrivateRoute/PrivateRoute";
-import { getCookie } from "./utils";
+import PrivateRoute from "./services/routing/PrivateRoute/PrivateRoute";
+import { getCookie } from "./services/utils";
 import AssessmentType from "./pages/AssessmentType";
 import HospitalOptions from "./pages/HospitalOptions";
 
@@ -43,7 +43,6 @@ function App() {
   const [state, setState] = useState();
   useEffect(() => {
     const user = getCookie("userData");
-    if (user) console.log(user, "this is user");
   }, []);
   return (
     <div className="App">
@@ -60,6 +59,7 @@ function App() {
             />
             <Route path={ROUTE_MAP.login} element={<Login />} />
             <Route path={ROUTE_MAP.register} element={<Register />} />
+            {/*to cache start */}
             <Route
               path={ROUTE_MAP.medical_assessments}
               element={
@@ -76,6 +76,8 @@ function App() {
                 </PrivateRoute>
               }
             />
+            {/*to cache  end */}
+
             <Route
               path={ROUTE_MAP.capture_location}
               element={

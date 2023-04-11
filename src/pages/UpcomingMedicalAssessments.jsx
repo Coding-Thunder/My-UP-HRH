@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import CommonLayout from "../components/CommonLayout";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import { getMedicalAssessmentsUpcoming } from "../api";
-import ROUTE_MAP from "../routing/routeMap";
+import { getMedicalAssessmentsUpcoming } from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
 
 const UpcomingMedicalAssessments = () => {
   const [tableData, setTableData] = useState();

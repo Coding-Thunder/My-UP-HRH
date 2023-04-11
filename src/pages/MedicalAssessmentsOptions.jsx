@@ -3,9 +3,9 @@ import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
 import { StateContext } from "../App";
-import { getAssessmentStatus, getMedicalAssessments } from "../api";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie } from "../utils";
+import { getAssessmentStatus, getMedicalAssessments } from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { getCookie } from "../services/utils";
 
 const MedicalAssessmentsOptions = () => {
   const { state, setState } = useContext(StateContext);
@@ -79,7 +79,6 @@ const MedicalAssessmentsOptions = () => {
     getData();
   }, []);
 
-  console.log(state);
 
   return (
     role && (

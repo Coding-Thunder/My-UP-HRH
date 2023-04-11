@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
-import ROUTE_MAP from "../routing/routeMap";
+import ROUTE_MAP from "../services/routing/routeMap";
 
 const AssessmentType = () => {
   const navigate = useNavigate();

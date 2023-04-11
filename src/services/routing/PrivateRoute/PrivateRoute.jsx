@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StateContext } from "../../App";
+import { StateContext } from "../../../App";
 import ROUTE_MAP from "../routeMap";
 import { Navigate } from "react-router";
 import { getCookie } from "../../utils";

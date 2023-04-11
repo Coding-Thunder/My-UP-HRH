@@ -1,8 +1,9 @@
 import axios from "axios";
-import { getCookie, makeHasuraCalls } from "../utils";
+import { makeHasuraCalls } from "../utils";
 
 const BASE_URL = process.env.REACT_APP_USER_SERVICE_URL;
 const applicationId = process.env.REACT_APP_APPLICATION_ID;
+
 const ENKETO_MANAGER_URL = process.env.REACT_APP_ENKETO_MANAGER_URL;
 // const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;
 

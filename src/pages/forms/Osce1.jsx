@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import ROUTE_MAP from "../../routing/routeMap";
+import ROUTE_MAP from "../../services/routing/routeMap";
 
 const Osce1 = () => {
   const forms = [

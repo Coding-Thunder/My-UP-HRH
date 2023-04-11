@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
 import { StateContext } from "../App";
@@ -9,10 +9,9 @@ import {
   getAssignedForms,
   getMedicalAssessments,
   getRandomOsceForm,
-  getRandomOsceFormsTeacher,
-} from "../api";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie, setCookie } from "../utils";
+} from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { getCookie } from "../services/utils";
 
 const OsceOptions = () => {
   const { state, setState } = useContext(StateContext);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import formSpecJSON from "../../configs/nursingNonMedical.json";
+import formSpecJSON from "../../services/configs/nursingNonMedical.json";
 import { useNavigate } from "react-router-dom";
 import {
   getMedicalAssessments,
   getPrefillXML,
   saveFormSubmission,
-} from "../../api";
+} from "../../services/api";
 import { StateContext } from "../../App";
 import XMLParser from "react-xml-parser";
 import {
@@ -14,8 +14,8 @@ import {
   makeDataForPrefill,
   setCookie,
   updateFormData,
-} from "../../utils";
-import ROUTE_MAP from "../../routing/routeMap";
+} from "../../services/utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
 
 const ENKETO_MANAGER_URL = process.env.REACT_APP_ENKETO_MANAGER_URL;
 const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;

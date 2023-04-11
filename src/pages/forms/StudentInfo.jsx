@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import formSpecJSON from "../../configs/studentInfo.json";
+import formSpecJSON from "../../services/configs/studentInfo.json";
 import { useNavigate } from "react-router-dom";
-import { getMedicalAssessments, saveFormSubmission } from "../../api";
+import { getMedicalAssessments, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
 import XMLParser from "react-xml-parser";
-import ROUTE_MAP from "../../routing/routeMap";
-import { getCookie, setCookie } from "../../utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
+import { getCookie, setCookie } from "../../services/utils";
 
 const StudentInfo = () => {
   const { state } = useContext(StateContext);

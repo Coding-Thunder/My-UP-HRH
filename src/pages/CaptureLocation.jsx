@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { StateContext } from "../App";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie } from "../utils";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { getCookie } from "../services/utils";
 
 const CaptureLocation = () => {
   const [lat, setLat] = useState(0);

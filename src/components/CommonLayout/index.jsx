@@ -7,7 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import CommonModal from "../Modal";
 import isOnline from 'is-online';
-import { logout } from "../../utils/index.js";
+import { logout } from "../../services/utils/index.js";
 import { useEffect } from "react";
 
 const CommonLayout = (props) => {

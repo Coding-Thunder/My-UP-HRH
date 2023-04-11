@@ -3,9 +3,9 @@ import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
 import { StateContext } from "../App";
-import { getAssessmentStatus } from "../api";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie, setCookie } from "../utils";
+import { getAssessmentStatus } from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { getCookie, setCookie } from "../services/utils";
 
 const NursingOptions = () => {
   const { state, setState } = useContext(StateContext);

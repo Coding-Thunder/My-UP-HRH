@@ -1,6 +1,6 @@
 import React from "react";
 import CommonLayout from "../../components/CommonLayout";
-import ROUTE_MAP from "../../routing/routeMap";
+import ROUTE_MAP from "../../services/routing/routeMap";
 
 const Osce2 = () => {
   return (

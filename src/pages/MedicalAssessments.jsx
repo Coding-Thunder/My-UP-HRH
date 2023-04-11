@@ -2,14 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
-import { getMedicalAssessments } from "../api";
+import { getMedicalAssessments } from "../services/api";
 import { faUser, faLock, faMobile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StateContext } from "../App";
-import ROUTE_MAP from "../routing/routeMap";
-import { getCookie } from "../utils";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { getCookie } from "../services/utils";
+import { db } from "../services/dixie-db/dixie-db";
+import { useLiveQuery } from "dexie-react-hooks";
+
 
 const MedicalAssessments = () => {
+  const assessmentFromIndexedDb = useLiveQuery(
+    () => db.assessment.toArray()
+  );
   const { state, setState } = useContext(StateContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -30,25 +36,54 @@ const MedicalAssessments = () => {
     navigate(role == 'Medical' ? ROUTE_MAP.assessment_type : ROUTE_MAP.capture_location);
   };
 
-  const getTodayAssessments = async () => {
+
+  const getTodaysAssessmentOffline = async () => {
+    try {
+      if (assessmentFromIndexedDb) {
+        console.log(assessmentFromIndexedDb, "assesment")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getTodaysAssessmentOnline = async () => {
     setLoading(true);
     const res = await getMedicalAssessments();
     if (res?.data?.assessment_schedule?.[0]) {
-      let ass = res?.data?.assessment_schedule?.[0];
-      setData({
-        id: ass.institute.id,
-        district: ass.institute.district,
-        instituteName: ass.institute.name,
-        specialization:
-          ass.institute?.institute_specializations?.[0]?.specializations,
-        courses: ass.institute?.institute_types?.[0]?.types,
-        type: ass.institute.sector,
-        pocs: ass.institute.institute_pocs,
-        latitude: ass.institute.latitude,
-        longitude: ass.institute.longitude,
-      });
+      let assessment = res?.data?.assessment_schedule?.[0];
+
+      if (assessment) {
+        if (db) {
+          setData({
+            id: assessment.institute.id,
+            district: assessment.institute.district,
+            instituteName: assessment.institute.name,
+            specialization:
+              assessment.institute?.institute_specializations?.[0]?.specializations,
+            courses: assessment.institute?.institute_types?.[0]?.types,
+            type: assessment.institute.sector,
+            pocs: assessment.institute.institute_pocs,
+            latitude: assessment.institute.latitude,
+            longitude: assessment.institute.longitude,
+          });
+          await db.assessment.add({ assessment: JSON.stringify(assessment) })
+        }
+      }
+
     } else setData(null);
     setLoading(false);
+
+  }
+
+  const getTodayAssessments = async () => {
+
+    if (navigator.onLine) {
+      getTodaysAssessmentOnline()
+    } else {
+      getTodaysAssessmentOffline()
+    }
+
   };
   useEffect(() => {
     getTodayAssessments();

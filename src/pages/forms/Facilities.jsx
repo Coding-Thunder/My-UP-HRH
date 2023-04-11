@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import CommonLayout from "../../components/CommonLayout";
-import formSpecJSON from "../../configs/facilities.json";
+import formSpecJSON from "../../services/configs/facilities.json";
 import { useNavigate } from "react-router-dom";
-import { getMedicalAssessments, saveFormSubmission } from "../../api";
+import { getMedicalAssessments, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
 import XMLParser from "react-xml-parser";
-import ROUTE_MAP from "../../routing/routeMap";
-import { getCookie, setCookie } from "../../utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
+import { getCookie, setCookie } from "../../services/utils";
 
 const Facilities = () => {
   const { state } = useContext(StateContext);
-  console.log(state);
   const getFormURI = (form, ofsd, prefillSpec) => {
     // console.log(form, ofsd, prefillSpec);
     return encodeURIComponent(

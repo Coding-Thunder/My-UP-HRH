@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getFormSubmissions } from "../api";
+import { getFormSubmissions } from "../services/api";
 import CommonLayout from "../components/CommonLayout";
 import CsvDownloadButton from 'react-json-to-csv'
 

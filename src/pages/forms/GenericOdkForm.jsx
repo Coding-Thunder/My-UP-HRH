@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import CommonLayout from "../../components/CommonLayout";
 import { Routes, useNavigate, useParams } from "react-router-dom";
-import { getMedicalAssessments, getPrefillXML, saveFormSubmission } from "../../api";
+import { getMedicalAssessments, getPrefillXML, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
-import { getCookie, getFormData, getFromLocalForage, handleFormEvents, isImage, makeDataForPrefill, setCookie, setToLocalForage, updateFormData } from "../../utils";
-import ROUTE_MAP from "../../routing/routeMap";
+import { getCookie, getFormData, getFromLocalForage, handleFormEvents, isImage, makeDataForPrefill, setCookie, setToLocalForage, updateFormData } from "../../services/utils";
+import ROUTE_MAP from "../../services/routing/routeMap";
 
 const ENKETO_MANAGER_URL = process.env.REACT_APP_ENKETO_MANAGER_URL;
 const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;

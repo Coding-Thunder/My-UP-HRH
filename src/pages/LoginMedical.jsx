@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { loginMedical } from "../api";
-import ROUTE_MAP from "../routing/routeMap";
-import { setCookie } from "../utils";
+import { loginMedical } from "../services/api";
+import ROUTE_MAP from "../services/routing/routeMap";
+import { setCookie } from "../services/utils";
 
 const LoginMedical = ({ handleStepChangeForLogin }) => {
   const navigate = useNavigate();
