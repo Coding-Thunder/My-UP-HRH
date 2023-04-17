@@ -13,9 +13,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 
 const MedicalAssessments = () => {
-  const assessmentFromIndexedDb = useLiveQuery(
-    () => db.assessment.toArray()
-  );
+  const assessmentFromIndexedDb = useLiveQuery(() => db.assessment.toArray(), []);
+
+  const [offlineAssessment, setOfflineAssessment] = useState({});
   const { state, setState } = useContext(StateContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -36,39 +36,27 @@ const MedicalAssessments = () => {
     navigate(role == 'Medical' ? ROUTE_MAP.assessment_type : ROUTE_MAP.capture_location);
   };
 
-
-  const getTodaysAssessmentOffline = async () => {
-    try {
-      if (assessmentFromIndexedDb) {
-        console.log(assessmentFromIndexedDb, "assesment")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const getTodaysAssessmentOnline = async () => {
+  const getTodayAssessments = async () => {
     setLoading(true);
     const res = await getMedicalAssessments();
     if (res?.data?.assessment_schedule?.[0]) {
       let assessment = res?.data?.assessment_schedule?.[0];
 
       if (assessment) {
-        if (db) {
-          setData({
-            id: assessment.institute.id,
-            district: assessment.institute.district,
-            instituteName: assessment.institute.name,
-            specialization:
-              assessment.institute?.institute_specializations?.[0]?.specializations,
-            courses: assessment.institute?.institute_types?.[0]?.types,
-            type: assessment.institute.sector,
-            pocs: assessment.institute.institute_pocs,
-            latitude: assessment.institute.latitude,
-            longitude: assessment.institute.longitude,
-          });
-          await db.assessment.add({ assessment: JSON.stringify(assessment) })
-        }
+        setData({
+          id: assessment.institute.id,
+          district: assessment.institute.district,
+          instituteName: assessment.institute.name,
+          specialization:
+            assessment.institute?.institute_specializations?.[0]?.specializations,
+          courses: assessment.institute?.institute_types?.[0]?.types,
+          type: assessment.institute.sector,
+          pocs: assessment.institute.institute_pocs,
+          latitude: assessment.institute.latitude,
+          longitude: assessment.institute.longitude,
+        });
+        await db.assessment.clear();
+        await db.assessment.add({ assessment: JSON.stringify(assessment) })
       }
 
     } else setData(null);
@@ -76,15 +64,6 @@ const MedicalAssessments = () => {
 
   }
 
-  const getTodayAssessments = async () => {
-
-    if (navigator.onLine) {
-      getTodaysAssessmentOnline()
-    } else {
-      getTodaysAssessmentOffline()
-    }
-
-  };
   useEffect(() => {
     getTodayAssessments();
     const {
@@ -93,6 +72,26 @@ const MedicalAssessments = () => {
     const roles = registrations[0]?.roles[0];
     setRole(roles);
   }, []);
+
+  useEffect(() => {
+    if (assessmentFromIndexedDb?.[assessmentFromIndexedDb.length - 1]?.assessment)
+      if (!navigator.onLine) {
+        console.log("Goging offline:", JSON.parse(assessmentFromIndexedDb?.[assessmentFromIndexedDb.length - 1]?.assessment))
+        let assessment = JSON.parse(assessmentFromIndexedDb?.[assessmentFromIndexedDb.length - 1]?.assessment);
+        setData({
+          id: assessment.institute.id,
+          district: assessment.institute.district,
+          instituteName: assessment.institute.name,
+          specialization:
+            assessment.institute?.institute_specializations?.[0]?.specializations,
+          courses: assessment.institute?.institute_types?.[0]?.types,
+          type: assessment.institute.sector,
+          pocs: assessment.institute.institute_pocs,
+          latitude: assessment.institute.latitude,
+          longitude: assessment.institute.longitude,
+        })
+      }
+  }, [assessmentFromIndexedDb])
 
   return (
     <CommonLayout back={ROUTE_MAP.root}>

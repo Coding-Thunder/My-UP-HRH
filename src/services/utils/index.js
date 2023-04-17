@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import XMLParser from "react-xml-parser";
 import localforage from "localforage";
 import { getMedicalAssessments, getPrefillXML, getSubmissionXML } from "../api";
+import axios from "axios";
 
 const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;
 
@@ -175,3 +176,14 @@ export const getFormData = async ({ loading, scheduleId, formSpec, startingForm,
   } else setData(null);
   loading.current = false;
 };
+
+export const cacheForms = async (formName) => {
+  const user = getCookie("userData");
+  console.log("userData:", user)
+  console.log("Caching Forms ... ");
+  let prefilledFormUrl = await getPrefillXML(formName, {});
+  console.log(prefilledFormUrl)
+  let transformedForm = await axios.get('http://64.227.185.154:8090/transform?xform=' + prefilledFormUrl);
+  console.log("Trans form:", transformedForm.data)
+  setToLocalForage(user.user.id + "_" + formName, transformedForm.data);
+}

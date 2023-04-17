@@ -93,7 +93,7 @@ const GenericOdkForm = () => {
           assessment_type: formName.startsWith('hospital') ? 'hospital' : 'institute',
           form_name: formSpec.start,
         });
-        setTimeout(() => navigate(formName.startsWith('hospital') ? ROUTE_MAP.hospital_forms : ROUTE_MAP.medical_assessment_options), 2000);
+        setTimeout(() => navigate(ROUTE_MAP.assessment_type), 2000);
         // setCookie(startingForm + `${new Date().toISOString().split("T")[0]}`, '');
         // setCookie(startingForm + `Images${new Date().toISOString().split("T")[0]}`, '');
       }
@@ -110,7 +110,7 @@ const GenericOdkForm = () => {
             formSpec.forms[nextForm.id].prefill
           )
         );
-        navigate(formName.startsWith('hospital') ? ROUTE_MAP.hospital_forms : ROUTE_MAP.medical_assessment_options)
+        navigate(ROUTE_MAP.assessment_type)
       } else if (nextForm?.type === 'url') {
         window.location.href = nextForm.url;
       }
@@ -141,7 +141,7 @@ const GenericOdkForm = () => {
   }, []);
 
   return (
-    <CommonLayout back={formName.startsWith('hospital') ? ROUTE_MAP.hospital_forms : ROUTE_MAP.medical_assessment_options}>
+    <CommonLayout back={ROUTE_MAP.assessment_type}>
       <div className="flex flex-col items-center">
         {encodedFormURI && assData && (
           <>

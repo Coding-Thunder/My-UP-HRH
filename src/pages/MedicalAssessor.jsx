@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import CommonLayout from "../components/CommonLayout";
 import ROUTE_MAP from "../services/routing/routeMap";
+import { cacheForms } from "../services/utils";
 
 const MedicalAssessor = () => {
   const navigate = useNavigate();
   const handleClick = (route) => {
     navigate(route);
   };
+
+  // Caching Forms on app initilization
+  useEffect(() => {
+    cacheForms('hospital_clinical_facilities');
+  }, [])
+
   return (
     <CommonLayout back="/login" backDisabled>
       <div className="flex flex-col px-5 py-8 items-center">

@@ -30,6 +30,7 @@ const ROUTE_MAP = {
   nursing_param_formName: "/nursingForms/",
   paramedical_param_formName: "/paramedicalForm/",
   otherforms_param_formName: "/forms/",
+  offline_odk_form: "/offlineForms/",
   admin: "/admin",
   root_star: "/*",
 };
