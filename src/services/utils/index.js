@@ -183,7 +183,7 @@ export const cacheForms = async (formName) => {
   console.log("Caching Forms ... ");
   let prefilledFormUrl = await getPrefillXML(formName, {});
   console.log(prefilledFormUrl)
-  let transformedForm = await axios.get('http://64.227.185.154:8090/transform?xform=' + prefilledFormUrl);
+  let transformedForm = await axios.get('http://localhost:8085/transform?xform=' + prefilledFormUrl);
   console.log("Trans form:", transformedForm.data)
   setToLocalForage(user.user.id + "_" + formName, transformedForm.data);
 }

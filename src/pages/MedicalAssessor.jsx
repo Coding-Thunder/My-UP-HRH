@@ -13,7 +13,7 @@ const MedicalAssessor = () => {
 
   // Caching Forms on app initilization
   useEffect(() => {
-    cacheForms('hospital_clinical_facilities');
+    cacheForms('test_form');
   }, [])
 
   return (
