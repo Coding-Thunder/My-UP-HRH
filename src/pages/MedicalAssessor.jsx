@@ -12,9 +12,9 @@ const MedicalAssessor = () => {
   };
 
   // Caching Forms on app initilization
-  useEffect(() => {
-    cacheForms('test_form');
-  }, [])
+  // useEffect(() => {
+  //   cacheForms('test_form');
+  // }, [])
 
   return (
     <CommonLayout back="/login" backDisabled>

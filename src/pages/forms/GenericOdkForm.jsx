@@ -3,7 +3,7 @@ import CommonLayout from "../../components/CommonLayout";
 import { Routes, useNavigate, useParams } from "react-router-dom";
 import { getMedicalAssessments, getPrefillXML, saveFormSubmission } from "../../services/api";
 import { StateContext } from "../../App";
-import { getCookie, getFormData, getFromLocalForage, handleFormEvents, isImage, makeDataForPrefill, setCookie, setToLocalForage, updateFormData } from "../../services/utils";
+import { getCookie, getFormData, getFromLocalForage, getOfflineCapableForm, handleFormEvents, isImage, makeDataForPrefill, setCookie, setToLocalForage, updateFormData } from "../../services/utils";
 import ROUTE_MAP from "../../services/routing/routeMap";
 
 const ENKETO_MANAGER_URL = process.env.REACT_APP_ENKETO_MANAGER_URL;
@@ -11,6 +11,7 @@ const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;
 
 const GenericOdkForm = () => {
   const user = getCookie("userData");
+  const [surveyUrl, setSurveyUrl] = useState("");
   let { formName } = useParams();
   const scheduleId = useRef();
   const formSpec = {
@@ -133,6 +134,7 @@ const GenericOdkForm = () => {
   useEffect(() => {
     bindEventListener();
     getFormData({ loading, scheduleId, formSpec, startingForm, formId, setData, setEncodedFormSpec, setEncodedFormURI });
+    getSurveyUrl();
     return () => {
       detachEventBinding();
       setData(null);
@@ -140,15 +142,32 @@ const GenericOdkForm = () => {
     };
   }, []);
 
+  const getSurveyUrl = async () => {
+    let surveyUrl = await getOfflineCapableForm('widgets');
+    console.log("SurveyURL:", surveyUrl);
+    if (!surveyUrl)
+      setSurveyUrl("https://8065-samagradevelop-workflow-871i2twcw0a.ws-us98.gitpod.io/x/wnoqac4d")
+    else
+      setSurveyUrl(surveyUrl);
+  }
+
   return (
     <CommonLayout back={ROUTE_MAP.assessment_type}>
       <div className="flex flex-col items-center">
-        {encodedFormURI && assData && (
+        {/* {encodedFormURI && assData && (
           <>
-            {console.log("ENCODED FROM", encodedFormURI)}
             <iframe
               title="form"
               src={`${ENKETO_URL}/preview?formSpec=${encodedFormSpec}&xform=${encodedFormURI}&userId=${user.user.id}`}
+              style={{ height: "80vh", width: "100%", marginTop: "20px" }}
+            />
+          </>
+        )} */}
+        {surveyUrl && (
+          <>
+            <iframe
+              title="form"
+              src={surveyUrl}
               style={{ height: "80vh", width: "100%", marginTop: "20px" }}
             />
           </>

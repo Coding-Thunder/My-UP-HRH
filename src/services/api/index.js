@@ -304,3 +304,36 @@ export const getFormSubmissions = () => {
   };
   return makeHasuraCalls(query);
 };
+
+
+export const saveDataToHasura = (data) => {
+  const query = {
+    query: `
+    mutation ($object: [dummy_poc_table_insert_input!] = {}) {
+      insert_dummy_poc_table(objects: $object) {
+        returning {
+          id
+        }
+      }
+    }
+      `,
+    variables: { object: data },
+  };
+  return makeHasuraCalls(query);
+};
+
+export const getDataFromHasura = () => {
+  const query = {
+    query: `
+    query MyQuery {
+      dummy_poc_table(order_by: {created_at: desc}, limit: 1) {
+        text_input
+        date_input
+        id
+      }
+    }
+      `,
+    variables: {},
+  };
+  return makeHasuraCalls(query);
+};

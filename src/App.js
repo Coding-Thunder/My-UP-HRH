@@ -11,10 +11,11 @@ import GenericOdkForm from "./pages/forms/GenericOdkForm";
 import ROUTE_MAP from "./services/routing/routeMap";
 import Login from "./pages/Login/Login";
 import PrivateRoute from "./services/routing/PrivateRoute/PrivateRoute";
-import { getCookie } from "./services/utils";
+import { getCookie, getFromLocalForage, setToLocalForage } from "./services/utils";
 import AssessmentType from "./pages/AssessmentType";
 import OfflineOdkForm from "./pages/OfflineOdkForm";
-
+import toast, { Toaster } from 'react-hot-toast';
+import { saveDataToHasura } from "./services/api";
 export const StateContext = createContext();
 
 function App() {
@@ -22,6 +23,25 @@ function App() {
   useEffect(() => {
     const user = getCookie("userData");
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('online', async () => {
+      let syncData = await getFromLocalForage('syncData');
+      if (syncData) {
+        toast('Syncing saved data with server')
+        let appData = await getFromLocalForage('appData');
+        saveDataToHasura({
+          text_input: appData.textData,
+          date_input: appData.dateData
+        })
+      }
+      setToLocalForage('syncData', false);
+    })
+
+    window.addEventListener('offline', () => {
+      toast('App is now in offline mode :)')
+    })
+  }, [])
 
   return (
     <div className="App">
@@ -96,6 +116,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </StateContext.Provider>
+      <Toaster />
     </div>
   );
 }

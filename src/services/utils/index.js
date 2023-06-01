@@ -5,6 +5,7 @@ import { getMedicalAssessments, getPrefillXML, getSubmissionXML } from "../api";
 import axios from "axios";
 
 const ENKETO_URL = process.env.REACT_APP_ENKETO_URL;
+const OPEN_ROSA_SERVER_URL = process.env.REACT_APP_OPEN_ROSA_SERVER_URL
 
 export const makeHasuraCalls = async (query) => {
   const userData = getCookie("userData");
@@ -69,7 +70,6 @@ export const setCookie = (cname, cvalue) => {
 export const getCookie = (cname) => {
   try {
     let cookie = Cookies.get(cname);
-    console.log(JSON.parse(cookie));
     if (cookie) return JSON.parse(cookie);
   } catch (error) {
     return false;
@@ -112,7 +112,9 @@ export const getFromLocalForage = async (key) => {
 }
 
 export const setToLocalForage = async (key, value) => {
-  await localforage.setItem(key, value);
+  const user = getCookie("userData");
+
+  await localforage.setItem(user.user.id + "_" + key, value);
 }
 
 export const handleFormEvents = async (startingForm, afterFormSubmit, e) => {
@@ -127,7 +129,7 @@ export const handleFormEvents = async (startingForm, afterFormSubmit, e) => {
       let images = JSON.parse(e.data).fileURLs;
       let prevData = await getFromLocalForage(startingForm + `${new Date().toISOString().split("T")[0]}`);
       console.log("Local Forage Data ---->", prevData)
-      await setToLocalForage(user.user.id + "_" + startingForm + `${new Date().toISOString().split("T")[0]}`, {
+      await setToLocalForage(startingForm + `${new Date().toISOString().split("T")[0]}`, {
         formData: JSON.parse(e.data).formData,
         imageUrls: { ...prevData?.imageUrls, ...images }
       })
@@ -185,5 +187,32 @@ export const cacheForms = async (formName) => {
   console.log(prefilledFormUrl)
   let transformedForm = await axios.get('http://localhost:8085/transform?xform=' + prefilledFormUrl);
   console.log("Trans form:", transformedForm.data)
-  setToLocalForage(user.user.id + "_" + formName, transformedForm.data);
+  setToLocalForage(formName, transformedForm.data);
+}
+
+export const getOfflineCapableForm = async (formId) => {
+  try {
+    if (navigator.onLine) {
+      let res = await axios.post(ENKETO_URL + "/api/v2/survey/offline",
+        {
+          server_url: OPEN_ROSA_SERVER_URL,
+          form_id: formId
+        },
+        {
+          headers: {
+            Authorization: 'Basic ' + btoa('enketorules:')
+          }
+        });
+      if (res?.data?.offline_url) {
+        setToLocalForage('formUri', res?.data?.offline_url)
+      }
+      return res?.data?.offline_url || undefined;
+    } else {
+      let formUri = await getFromLocalForage('formUri');
+      console.log(formUri);
+      return formUri;
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
